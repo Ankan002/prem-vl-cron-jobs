@@ -12,7 +12,7 @@ const level = {
   };
   
   exports.getDailyRewardLevel = (amount) => {
-    if (amount >= 2500)
+    if (amount >= 25)
       return {
         level: "Junior",
         reward: level.Junior,

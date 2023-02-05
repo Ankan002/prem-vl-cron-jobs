@@ -15,5 +15,5 @@ const MyUpperline = mongoose.Schema({
   timestamps: true,
 }
 )
-module.exports = mongoose.model("MyUpperline", MyUpperline);
+module.exports = mongoose.model("myupperli", MyUpperline);
 
