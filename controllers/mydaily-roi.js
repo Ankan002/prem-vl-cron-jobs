@@ -67,261 +67,219 @@ exports.checkTeamRecord = async (req, res) => {
 
         } else {
 
-          if (findMyPackageDate !== null) {
+          if (findTodayROIDataOld.length > 0) {
 
-            if (findTodayROIDataOld.length > 0) {
-
-              var lastDataDate = findTodayROIDataOld[0].createdAt
+            var lastDataDate = findTodayROIDataOld[0].createdAt
 
 
-              let date1 = new Date(lastDataDate);
-              let date2 = new Date();
+            let date1 = new Date(lastDataDate);
+            let date2 = new Date();
 
-              let differenceInTime = date2.getTime() - date1.getTime();
-              let differenceInDays = differenceInTime / (1000 * 3600 * 24);
+            let differenceInTime = date2.getTime() - date1.getTime();
+            let differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
-              var diffDays = Math.floor(differenceInDays)
-
-
-              var num = 0
-
-              var index = 1
-              var percan = depositedAmount * 0.5 / 100
+            var diffDays = Math.floor(differenceInDays)
 
 
-              console.log("And this user will get this much of amount => " + percan)
+            var num = 0
 
-              // while (Number(num) < Number(diffDays)) {
-                var giveReward = await DailyRoi({
-                  RoiOwner: findUser._id,
-                  StepsWalked: "0",
-                  GiveRoiCoin: percan,
-                  GiveRoiPercantage: "0.5",
-                  PurchasedPackageName: "wegwe",
-                  Date: `${getYear}-${getMonth}-${getDay}`
-                }).save()
-                num = num + 1
-              // }
+            var index = 1
+            var percan = depositedAmount * 0.5 / 100
+
+
+            // console.log("And this user will get this much of amount => " + percan)
+
+            // while (Number(num) < Number(diffDays)) {
+            var giveReward = await DailyRoi({
+              RoiOwner: findUser._id,
+              StepsWalked: "0",
+              GiveRoiCoin: percan,
+              GiveRoiPercantage: "0.5",
+              PurchasedPackageName: "wegwe",
+              Date: `${getYear}-${getMonth}-${getDay}`
+            }).save()
+            num = num + 1
+            // }
 
 
 
-              // Level income starting from here
+            
+
+          } else {
+            var percan = depositedAmount * 0.5 / 100
+            const giveReward = await DailyRoi({
+              RoiOwner: findUser._id,
+              StepsWalked: "0",
+              GiveRoiCoin: percan,
+              GiveRoiPercantage: "0.5",
+              PurchasedPackageName: "wegwe",
+              Date: `${getYear}-${getMonth}-${getDay}`
+            }).save()
 
 
-              // Level Logic Is Here
+
+           // Level income starting from here
 
 
+            // Level Logic Is Here
 
-                console.log(findUser._id)
-              const MyUpperlinesPeople = await MyUpperline.find({ MyUserid: findUser._id });
+          
 
-              console.log(MyUpperlinesPeople)
-
-              for (let index = 0; index < MyUpperlinesPeople.length; index++) {
+            const MyUpperlinesPeople = await MyUpperline.find({ MyUserid: findUser._id });
 
 
-                console.log("level inc ")
+            for (let indexDown = 0; indexDown < MyUpperlinesPeople.length; indexDown++) {
 
-                const element = MyUpperlinesPeople[index];
-                var myLevels = JSON.parse(element.MyUpperLines)
+             const element = MyUpperlinesPeople[indexDown]
+             var myLevels = JSON.parse(element.MyUpperLines)
+            //  console.log(myLevels)
 
-                for (let indexs = 0; indexs < myLevels.length; indexs++) {
 
-                  const elementss = myLevels[indexs];
+             for (let insideLevelUserIndex = 0; insideLevelUserIndex < myLevels.length; insideLevelUserIndex++) {
 
-                  console.log("came herers")
+               const thisUser = myLevels[insideLevelUserIndex];
+
+                const findMyUpperLineWholeData = await User.find({WalletAddress:thisUser})
+                
+              
+                if (findMyUpperLineWholeData.length > 0) {
                   
-                  const findUsers = await User.findOne({ WalletAddress: elementss })
+                  // console.log(findMyUpperLineWholeData)
+
+
+                  const findThisUserDiectReferals = await User.find({UpperLineSponserUser:findMyUpperLineWholeData[0].WalletAddress})
+
+
+                  console.log("myuser lengh is => "+  findThisUserDiectReferals.length)  // <===< here calculating all my direct referrals
+
+                  
 
                   var percen = 0
 
-                  if (indexs + 1 == 1) {
+                  if (indexdf + 1 == 1) {
                     percen = 20
-                  } else if (indexs + 1 == 2) {
+                  } else if (indexdf + 1 == 2) {
                     percen = 7.5
 
-                  } else if (indexs + 1 == 3) {
+                  } else if (indexdf + 1 == 3) {
                     percen = 5
 
-                  } else if (indexs + 1 == 4) {
+                  } else if (indexdf + 1 == 4) {
                     percen = 2.5
 
-                  } else if (indexs + 1 == 5) {
+                  } else if (indexdf + 1 == 5) {
 
                     percen = 1.5
-                  } else if (indexs + 1 >= 6 && indexs + 1 <= 10) {
+                  } else if (indexdf + 1 >= 6 && indexdf + 1 <= 10) {
                     percen = 1
 
-                  } else if (indexs + 1 > 10) {
+                  } else if (indexdf + 1 > 10) {
                     percen = 0.5
 
                   }
 
-                  if (findUsers) {
+                  var news = 1+Number(insideLevelUserIndex)
 
+                  console.log("current level loop => "+  news)
 
-                    const getPacks = await DepositRecord.find({ RecordOwner: findUsers._id })
-                    console.log("belowss ===>")
+                  if (findThisUserDiectReferals.length >= news) {
+
+              
                     
-                    
-                    if (getPacks.length > 0) {
 
+                  var sum = Number(findMyUpperLineWholeData[0].Wallete) + Number(percan) * percen / 100
 
+                  await User.findByIdAndUpdate({ _id: findMyUpperLineWholeData[0]._id }, { Wallete: sum })
 
-                      const findReferals = await User.find({ UpperLineSponserUser: findUsers.WalletAddress })
-                      console.log("nichec refs hai")
-                    console.log(findReferals)
+                  await LevelDailyRoi({
 
-                      // if (Number(findReferals) == indexs + 1) {
+                    ROIOwner: findMyUpperLineWholeData[0]._id,
+                    LevelEarned: news,
+                    coinEarned: Number(percan) * percen / 100,
+                    EarnedPercantage: percen,
+                    rewardGetFrom: findUser._id,
+                    rewardGetFromName: "nulls",
 
+                  }).save()
 
-
-
-
-                        var sum = Number(findUsers.Wallete) + Number(percan) * percen / 100
-
-                        await User.findByIdAndUpdate({ _id: findUsers._id }, { Wallete: sum })
-
-                        await LevelDailyRoi({
-
-                          ROIOwner: findUsers._id,
-                          LevelEarned: index+1,
-                          coinEarned: Number(percan) * percen / 100,
-                          EarnedPercantage: percen,
-                          rewardGetFrom: findUser._id,
-                          rewardGetFromName: "nulls",
-
-                        }).save()
-
-
-                      // }
-
-
-
-                    }
-
-
-
-
-                  }
                 }
 
-                index+1 == 15
-                break;
-              }
-
-            } else {
-              var percan = depositedAmount * 0.5 / 100
-              const giveReward = await DailyRoi({
-                RoiOwner: findUser._id,
-                StepsWalked: "0",
-                GiveRoiCoin: percan,
-                GiveRoiPercantage: "0.5",
-                PurchasedPackageName: "wegwe",
-                Date: `${getYear}-${getMonth}-${getDay}`
-              }).save()
-
-
-              // Level Logic Is Here
 
 
 
 
 
-              const MyUpperlinesPeople = await MyUpperline.find({ MyUserid: findUser._id });
-
-              for (let index = 0; index < MyUpperlinesPeople.length; index++) {
-
-                const element = MyUpperlinesPeople[index];
-                var myLevels = JSON.parse(element.MyUpperLines)
-
-                console.log("poings")
-
-                for (let indexs = 0; indexs < myLevels.length; indexs++) {
-
-                  const elementss = myLevels[indexs];
-                  console.log("bills")
-                  console.log(elementss)
-
-                  const findUsers = await User.findOne({ WalletAddress: elementss })
-
-
-
-                  var percen = 0
-
-                  if (indexs + 1 == 1) {
-                    percen = 20
-                  } else if (indexs + 1 == 2) {
-                    percen = 7.5
-
-                  } else if (indexs + 1 == 3) {
-                    percen = 5
-
-                  } else if (indexs + 1 == 4) {
-                    percen = 2.5
-
-                  } else if (indexs + 1 == 5) {
-
-                    percen = 1.5
-                  } else if (indexs + 1 >= 6 && indexs + 1 <= 10) {
-                    percen = 1
-
-                  } else if (indexs + 1 > 10) {
-                    percen = 0.5
-
-                  }
-
-
-
-
-                  if (findUsers) {
-                    const getPacks = await DepositRecord.find({ RecordOwner: findUsers._id })
-                    console.log("comes till here")
-                    if (getPacks.length > 0) {
-
-                      const findReferals = await User.find({ UpperLineSponserUser: findUsers.WalletAddress })
-
-
-
-                      // if (Number(findReferals) == indexs + 1) {
-
-
-
-
-                        var sum = Number(findUsers.Wallete) + Number(percan) * percen / 100
-
-                        await User.findByIdAndUpdate({ _id: findUsers._id }, { Wallete: sum })
-
-                        await LevelDailyRoi({
-
-                          ROIOwner: findUsers._id,
-                          LevelEarned: index+1,
-                          coinEarned: Number(percan) * 20 / 100,
-                          EarnedPercantage: percen,
-                          rewardGetFrom: findUser._id,
-                          rewardGetFromName: "nulls",
-
-                        }).save()
-
-
-                      // }
 
 
 
 
 
-                    }
-                  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  
                 }
 
-              }
 
 
 
 
+
+
+              
+              
+             }
+
+
+
+
+
+
+
+
+
+
+
+              
             }
 
+
+         
+
+
+
+
+
+
           }
+
         }
 
 
