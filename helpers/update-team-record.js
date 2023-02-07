@@ -57,7 +57,7 @@ const updateTeamRecordHelper = async (userId, teamRecordCache) => {
     }
 
     if(childUsers.length <= 0) {
-        teamRecordCache["userId"] = {
+        teamRecordCache[userId] = {
             totalMembers: 0,
             totalMemberBussiness: 0,
             myCount: 1,
@@ -76,7 +76,7 @@ const updateTeamRecordHelper = async (userId, teamRecordCache) => {
     let totalBussiness = 0;
 
     for(let childUser of childUsers){
-        const foundRecords = await updateTeamRecord(childUser.id, teamRecordCache);
+        const foundRecords = await updateTeamRecordHelper(childUser.id, teamRecordCache);
 
         totalMembers += foundRecords.totalMembers + foundRecords.myCount;
         totalBussiness += foundRecords.totalMemberBussiness + foundRecords.myInvestment;
@@ -84,15 +84,10 @@ const updateTeamRecordHelper = async (userId, teamRecordCache) => {
 
     teamRecordCache[userId] = {
         totalMembers,
-        totalBussiness,
+        totalMemberBussiness: totalBussiness,
         myCount: 1,
         myInvestment
     }
 
-    return {
-        totalMembers,
-        totalBussiness,
-        myCount: 1,
-        myInvestment
-    };
+    return teamRecordCache[userId];
 };

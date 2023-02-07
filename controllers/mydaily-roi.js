@@ -137,30 +137,7 @@ exports.checkTeamRecord = async (req, res) => {
 
                   
 
-                  var percen = 0
-
-                  if (insideLevelUserIndex + 1 == 1) {
-                    percen = 20
-                  } else if (insideLevelUserIndex + 1 == 2) {
-                    percen = 7.5
-
-                  } else if (insideLevelUserIndex + 1 == 3) {
-                    percen = 5
-
-                  } else if (insideLevelUserIndex + 1 == 4) {
-                    percen = 2.5
-
-                  } else if (insideLevelUserIndex + 1 == 5) {
-
-                    percen = 1.5
-                  } else if (insideLevelUserIndex + 1 >= 6 && insideLevelUserIndex + 1 <= 10) {
-                    percen = 1
-
-                  } else if (insideLevelUserIndex + 1 > 10) {
-                    percen = 0.5
-
-                  }
-
+           
                   var news = 1+Number(insideLevelUserIndex)
 
                   // console.log("current level loop => "+  news)
@@ -208,7 +185,37 @@ exports.checkTeamRecord = async (req, res) => {
 
                     })
 
-                    console.log(recNumber)
+                    // console.log(recNumber)
+
+
+
+
+
+                    var percen = 0
+
+                    if (recNumber == 1) {
+                      if (findDirectsForThisUser.length > 50) {
+                        percen = 50
+                      }else{
+                        percen = 20
+                      }
+                    } else if (recNumber == 2) {
+                      percen = 7.5
+  
+                    } else if (recNumber == 3) {
+                      percen = 5
+  
+                    } else if (recNumber == 4) {
+                      percen = 2.5
+  
+                    } else if (recNumber == 5) {
+  
+                      percen = 1.5
+                    } else if (recNumber >= 6 && recNumber <= 10) {
+                      percen = 1
+  
+                    }
+  
 
 
 
@@ -223,7 +230,7 @@ exports.checkTeamRecord = async (req, res) => {
                     coinEarned: Number(percan) * percen / 100,
                     EarnedPercantage: percen,
                     rewardGetFrom: findUser._id,
-                    rewardGetFromName: "nulls",
+                    rewardGetFromName: findUser.WalletAddress,
 
                   }).save()
 
@@ -286,30 +293,6 @@ exports.checkTeamRecord = async (req, res) => {
 
                   // console.log("myuser lengh is => "+  findThisUserDiectReferals.length)  // <===< here calculating all my direct referrals
 
-                  
-                  var percen = 0
-
-                  if (insideLevelUserIndex + 1 == 1) {
-                    percen = 20
-                  } else if (insideLevelUserIndex + 1 == 2) {
-                    percen = 7.5
-
-                  } else if (insideLevelUserIndex + 1 == 3) {
-                    percen = 5
-
-                  } else if (insideLevelUserIndex + 1 == 4) {
-                    percen = 2.5
-
-                  } else if (insideLevelUserIndex + 1 == 5) {
-
-                    percen = 1.5
-                  } else if (insideLevelUserIndex + 1 >= 6 && insideLevelUserIndex + 1 <= 10) {
-                    percen = 1
-
-                  } else if (insideLevelUserIndex + 1 > 10) {
-                    percen = 0.5
-
-                  }
 
                   var news = 1+Number(insideLevelUserIndex)
 
@@ -347,17 +330,48 @@ exports.checkTeamRecord = async (req, res) => {
                       console.log(String(findUser._id))
 
                       if (hit._id == String(findUser._id)) {
-                        console.log("ye kam karing")
+                        // console.log("ye kam karing")
                         recNumber = index+1
                       }else{
-                        console.log("not karing")
+                        // console.log("not karing")
                       }
 
 
 
                     })
 
-                    console.log(recNumber)
+                    // console.log(recNumber)
+
+
+
+
+                    
+                  
+                  var percen = 0
+
+                  if (recNumber == 1) {
+
+                    if (findDirectsForThisUser.length > 50) {
+                      percen = 50
+                    }else{
+                      percen = 20
+                    }
+                  } else if (recNumber == 2) {
+                    percen = 7.5
+
+                  } else if (recNumber == 3) {
+                    percen = 5
+
+                  } else if (recNumber == 4) {
+                    percen = 2.5
+
+                  } else if (recNumber == 5) {
+
+                    percen = 1.5
+                  } else if (recNumber >= 6 && recNumber <= 10) {
+                    percen = 1
+
+                  }
 
 
 
@@ -376,7 +390,7 @@ exports.checkTeamRecord = async (req, res) => {
                     coinEarned: Number(percan) * percen / 100,
                     EarnedPercantage: percen,
                     rewardGetFrom: findUser._id,
-                    rewardGetFromName: "nulls",
+                    rewardGetFromName: findUser.WalletAddress,
 
                   }).save()
 
