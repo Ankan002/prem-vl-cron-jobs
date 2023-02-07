@@ -98,12 +98,144 @@ exports.checkTeamRecord = async (req, res) => {
               PurchasedPackageName: "wegwe",
               Date: `${getYear}-${getMonth}-${getDay}`
             }).save()
+
             num = num + 1
-            // }
+           
+                       // Level income starting from here
+
+
+            // Level Logic Is Here
+
+          
+
+            const MyUpperlinesPeople = await MyUpperline.find({ MyUserid: findUser._id });
+
+
+            for (let indexDown = 0; indexDown < MyUpperlinesPeople.length; indexDown++) {
+
+             const element = MyUpperlinesPeople[indexDown]
+             var myLevels = JSON.parse(element.MyUpperLines)
+            //  console.log(myLevels)
+
+
+             for (let insideLevelUserIndex = 0; insideLevelUserIndex < myLevels.length; insideLevelUserIndex++) {
+
+               const thisUser = myLevels[insideLevelUserIndex];
+
+                const findMyUpperLineWholeData = await User.find({WalletAddress:thisUser})
+                
+              
+                if (findMyUpperLineWholeData.length > 0) {
+                  
+                  // console.log(findMyUpperLineWholeData)
+
+
+                  const findThisUserDiectReferals = await User.find({UpperLineSponserUser:findMyUpperLineWholeData[0].WalletAddress})
+
+
+                  // console.log("myuser lengh is => "+  findThisUserDiectReferals.length)  // <===< here calculating all my direct referrals
+
+                  
+
+                  var percen = 0
+
+                  if (insideLevelUserIndex + 1 == 1) {
+                    percen = 20
+                  } else if (insideLevelUserIndex + 1 == 2) {
+                    percen = 7.5
+
+                  } else if (insideLevelUserIndex + 1 == 3) {
+                    percen = 5
+
+                  } else if (insideLevelUserIndex + 1 == 4) {
+                    percen = 2.5
+
+                  } else if (insideLevelUserIndex + 1 == 5) {
+
+                    percen = 1.5
+                  } else if (insideLevelUserIndex + 1 >= 6 && insideLevelUserIndex + 1 <= 10) {
+                    percen = 1
+
+                  } else if (insideLevelUserIndex + 1 > 10) {
+                    percen = 0.5
+
+                  }
+
+                  var news = 1+Number(insideLevelUserIndex)
+
+                  // console.log("current level loop => "+  news)
+
+                  if (findThisUserDiectReferals.length >= news) {
+
+              
+                    
+
+                  var sum = Number(findMyUpperLineWholeData[0].Wallete) + Number(percan) * percen / 100
+
+                  await User.findByIdAndUpdate({ _id: findMyUpperLineWholeData[0]._id }, { Wallete: sum })
+
+
+                  var fndUser = await User.findById(findMyUpperLineWholeData[0]._id)
+                  var findDirectsForThisUser = await User.find({UpperLineSponserUser:fndUser.WalletAddress})
+
+                  // console.log("starting of referals")
+
+                    // console.log(findDirectsForThisUser)
+
+                  // console.log("hame ise dekhna hai ==> "+findUser._id)
+
+
+                  //   console.log("end of referals")
+
+                    var recNumber = 0
+
+
+                    findDirectsForThisUser.map((hit,index)=>{
+
+                      // console.log("tumhara hai ==>"+hit._id)
+                      console.log("mera hai ==>"+findUser._id)
+
+                      console.log(String(findUser._id))
+
+                      if (hit._id == String(findUser._id)) {
+                        console.log("ye kam karing")
+                        recNumber = index+1
+                      }else{
+                        console.log("not karing")
+                      }
 
 
 
-            
+                    })
+
+                    console.log(recNumber)
+
+
+
+
+
+
+
+                  await LevelDailyRoi({
+
+                    ROIOwner: findMyUpperLineWholeData[0]._id,
+                    LevelEarned: recNumber,
+                    coinEarned: Number(percan) * percen / 100,
+                    EarnedPercantage: percen,
+                    rewardGetFrom: findUser._id,
+                    rewardGetFromName: "nulls",
+
+                  }).save()
+
+                }
+
+
+                }
+              
+             }
+
+              
+            }
 
           } else {
             var percan = depositedAmount * 0.5 / 100
@@ -143,6 +275,8 @@ exports.checkTeamRecord = async (req, res) => {
                 
               
                 if (findMyUpperLineWholeData.length > 0) {
+
+                  
                   
                   // console.log(findMyUpperLineWholeData)
 
@@ -150,37 +284,36 @@ exports.checkTeamRecord = async (req, res) => {
                   const findThisUserDiectReferals = await User.find({UpperLineSponserUser:findMyUpperLineWholeData[0].WalletAddress})
 
 
-                  console.log("myuser lengh is => "+  findThisUserDiectReferals.length)  // <===< here calculating all my direct referrals
+                  // console.log("myuser lengh is => "+  findThisUserDiectReferals.length)  // <===< here calculating all my direct referrals
 
                   
-
                   var percen = 0
 
-                  if (indexdf + 1 == 1) {
+                  if (insideLevelUserIndex + 1 == 1) {
                     percen = 20
-                  } else if (indexdf + 1 == 2) {
+                  } else if (insideLevelUserIndex + 1 == 2) {
                     percen = 7.5
 
-                  } else if (indexdf + 1 == 3) {
+                  } else if (insideLevelUserIndex + 1 == 3) {
                     percen = 5
 
-                  } else if (indexdf + 1 == 4) {
+                  } else if (insideLevelUserIndex + 1 == 4) {
                     percen = 2.5
 
-                  } else if (indexdf + 1 == 5) {
+                  } else if (insideLevelUserIndex + 1 == 5) {
 
                     percen = 1.5
-                  } else if (indexdf + 1 >= 6 && indexdf + 1 <= 10) {
+                  } else if (insideLevelUserIndex + 1 >= 6 && insideLevelUserIndex + 1 <= 10) {
                     percen = 1
 
-                  } else if (indexdf + 1 > 10) {
+                  } else if (insideLevelUserIndex + 1 > 10) {
                     percen = 0.5
 
                   }
 
                   var news = 1+Number(insideLevelUserIndex)
 
-                  console.log("current level loop => "+  news)
+                  // console.log("current level loop => "+  news)
 
                   if (findThisUserDiectReferals.length >= news) {
 
@@ -191,10 +324,55 @@ exports.checkTeamRecord = async (req, res) => {
 
                   await User.findByIdAndUpdate({ _id: findMyUpperLineWholeData[0]._id }, { Wallete: sum })
 
+                  var fndUser = await User.findById(findMyUpperLineWholeData[0]._id)
+                  var findDirectsForThisUser = await User.find({UpperLineSponserUser:fndUser.WalletAddress})
+
+
+                  
+                  // console.log("starting of referals")
+                  // console.log(findDirectsForThisUser)
+
+                  // console.log("hame ise dekhna hai ==> "+findUser._id)
+                    // console.log("end of referals")
+
+
+                    var recNumber = 0
+
+
+                    findDirectsForThisUser.map((hit,index)=>{
+
+                      // console.log("tumhara hai ==>"+hit._id)
+                      console.log("mera hai ==>"+findUser._id)
+
+                      console.log(String(findUser._id))
+
+                      if (hit._id == String(findUser._id)) {
+                        console.log("ye kam karing")
+                        recNumber = index+1
+                      }else{
+                        console.log("not karing")
+                      }
+
+
+
+                    })
+
+                    console.log(recNumber)
+
+
+
+
+
+
+
+
+
+
+
                   await LevelDailyRoi({
 
                     ROIOwner: findMyUpperLineWholeData[0]._id,
-                    LevelEarned: news,
+                    LevelEarned: recNumber,
                     coinEarned: Number(percan) * percen / 100,
                     EarnedPercantage: percen,
                     rewardGetFrom: findUser._id,
