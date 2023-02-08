@@ -201,8 +201,16 @@ exports.checkTeamRecord = async (req, res) => {
                       percen = 1
   
                     }
-  
 
+
+                    var indoxs = 1+Number(insideLevelUserIndex)
+
+
+                  
+                    if ( Number(indoxs)  <= Number(findDirectsForThisUser.length) ) {
+
+                      
+                      
                   await LevelDailyRoi({
 
                     ROIOwner: findMyUpperLineWholeData[0]._id,
@@ -214,6 +222,7 @@ exports.checkTeamRecord = async (req, res) => {
 
                   }).save()
 
+                }
                 }
 
 
@@ -291,14 +300,6 @@ exports.checkTeamRecord = async (req, res) => {
                   var findDirectsForThisUser = await User.find({UpperLineSponserUser:fndUser.WalletAddress})
 
 
-                  
-                  // console.log("starting of referals")
-                  // console.log(findDirectsForThisUser)
-
-                  // console.log("hame ise dekhna hai ==> "+findUser._id)
-                    // console.log("end of referals")
-
-
                     var recNumber = 0
 
 
@@ -319,12 +320,6 @@ exports.checkTeamRecord = async (req, res) => {
 
 
                     })
-
-                    // console.log(recNumber)
-
-
-
-
                     
                   
                   var percen = 0
@@ -356,23 +351,31 @@ exports.checkTeamRecord = async (req, res) => {
 
 
 
+                    var indoxs = 1+Number(insideLevelUserIndex)
+
+
+                  
+                    if ( Number(indoxs)  <= Number(findDirectsForThisUser.length) ) {
 
 
 
+                    
+                    
+                                      await LevelDailyRoi({
+                    
+                                        ROIOwner: findMyUpperLineWholeData[0]._id,
+                                        LevelEarned: 1+Number(insideLevelUserIndex),
+                                        coinEarned: Number(percan) * percen / 100,
+                                        EarnedPercantage: percen,
+                                        rewardGetFrom: findUser._id,
+                                        rewardGetFromName: findUser.WalletAddress,
+                    
+                                      }).save()
 
 
+                    
+                  }
 
-
-                  await LevelDailyRoi({
-
-                    ROIOwner: findMyUpperLineWholeData[0]._id,
-                    LevelEarned: 1+Number(insideLevelUserIndex),
-                    coinEarned: Number(percan) * percen / 100,
-                    EarnedPercantage: percen,
-                    rewardGetFrom: findUser._id,
-                    rewardGetFromName: findUser.WalletAddress,
-
-                  }).save()
 
                 }
 
