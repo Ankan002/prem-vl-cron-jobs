@@ -155,15 +155,6 @@ exports.checkTeamRecord = async (req, res) => {
                   var fndUser = await User.findById(findMyUpperLineWholeData[0]._id)
                   var findDirectsForThisUser = await User.find({UpperLineSponserUser:fndUser.WalletAddress})
 
-                  // console.log("starting of referals")
-
-                    // console.log(findDirectsForThisUser)
-
-                  // console.log("hame ise dekhna hai ==> "+findUser._id)
-
-
-                  //   console.log("end of referals")
-
                     var recNumber = 0
 
 
@@ -185,48 +176,37 @@ exports.checkTeamRecord = async (req, res) => {
 
                     })
 
-                    // console.log(recNumber)
-
-
-
-
 
                     var percen = 0
 
-                    if (recNumber == 1) {
+                    if (1+Number(insideLevelUserIndex) == 1) {
                       if (findDirectsForThisUser.length > 50) {
                         percen = 50
                       }else{
                         percen = 20
                       }
-                    } else if (recNumber == 2) {
+                    } else if (1+Number(insideLevelUserIndex) == 2) {
                       percen = 7.5
   
-                    } else if (recNumber == 3) {
+                    } else if (1+Number(insideLevelUserIndex) == 3) {
                       percen = 5
   
-                    } else if (recNumber == 4) {
+                    } else if (1+Number(insideLevelUserIndex) == 4) {
                       percen = 2.5
   
-                    } else if (recNumber == 5) {
+                    } else if (1+Number(insideLevelUserIndex) == 5) {
   
                       percen = 1.5
-                    } else if (recNumber >= 6 && recNumber <= 10) {
+                    } else if (1+Number(insideLevelUserIndex) >= 6 && 1+Number(insideLevelUserIndex) <= 10) {
                       percen = 1
   
                     }
   
 
-
-
-
-
-
-
                   await LevelDailyRoi({
 
                     ROIOwner: findMyUpperLineWholeData[0]._id,
-                    LevelEarned: recNumber,
+                    LevelEarned: 1+Number(insideLevelUserIndex),
                     coinEarned: Number(percan) * percen / 100,
                     EarnedPercantage: percen,
                     rewardGetFrom: findUser._id,
@@ -349,26 +329,26 @@ exports.checkTeamRecord = async (req, res) => {
                   
                   var percen = 0
 
-                  if (recNumber == 1) {
+                  if (1+Number(insideLevelUserIndex) == 1) {
 
                     if (findDirectsForThisUser.length > 50) {
                       percen = 50
                     }else{
                       percen = 20
                     }
-                  } else if (recNumber == 2) {
+                  } else if (1+Number(insideLevelUserIndex) == 2) {
                     percen = 7.5
 
-                  } else if (recNumber == 3) {
+                  } else if (1+Number(insideLevelUserIndex) == 3) {
                     percen = 5
 
-                  } else if (recNumber == 4) {
+                  } else if (1+Number(insideLevelUserIndex) == 4) {
                     percen = 2.5
 
-                  } else if (recNumber == 5) {
+                  } else if (1+Number(insideLevelUserIndex) == 5) {
 
                     percen = 1.5
-                  } else if (recNumber >= 6 && recNumber <= 10) {
+                  } else if (1+Number(insideLevelUserIndex) >= 6 && 1+Number(insideLevelUserIndex) <= 10) {
                     percen = 1
 
                   }
@@ -386,7 +366,7 @@ exports.checkTeamRecord = async (req, res) => {
                   await LevelDailyRoi({
 
                     ROIOwner: findMyUpperLineWholeData[0]._id,
-                    LevelEarned: recNumber,
+                    LevelEarned: 1+Number(insideLevelUserIndex),
                     coinEarned: Number(percan) * percen / 100,
                     EarnedPercantage: percen,
                     rewardGetFrom: findUser._id,
