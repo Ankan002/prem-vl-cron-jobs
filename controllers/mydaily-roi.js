@@ -147,9 +147,7 @@ exports.checkTeamRecord = async (req, res) => {
               
                     
 
-                  var sum = Number(findMyUpperLineWholeData[0].Wallete) + Number(percan) * percen / 100
 
-                  await User.findByIdAndUpdate({ _id: findMyUpperLineWholeData[0]._id }, { Wallete: sum })
 
 
                   var fndUser = await User.findById(findMyUpperLineWholeData[0]._id)
@@ -161,15 +159,15 @@ exports.checkTeamRecord = async (req, res) => {
                     findDirectsForThisUser.map((hit,index)=>{
 
                       // console.log("tumhara hai ==>"+hit._id)
-                      console.log("mera hai ==>"+findUser._id)
+                      // console.log("mera hai ==>"+findUser._id)
 
-                      console.log(String(findUser._id))
+                      // console.log(String(findUser._id))
 
                       if (hit._id == String(findUser._id)) {
-                        console.log("ye kam karing")
+                        // console.log("ye kam karing")
                         recNumber = index+1
                       }else{
-                        console.log("not karing")
+                        // console.log("not karing")
                       }
 
 
@@ -201,6 +199,17 @@ exports.checkTeamRecord = async (req, res) => {
                       percen = 1
   
                     }
+
+
+
+                    var sum = Number(findMyUpperLineWholeData[0].Wallete) + Number(percan) * percen / 100
+
+                    console.log(sum)
+  
+                    await User.findByIdAndUpdate({ _id: findMyUpperLineWholeData[0]._id }, { Wallete: sum })
+
+
+
 
 
                     var indoxs = 1+Number(insideLevelUserIndex)
@@ -292,9 +301,7 @@ exports.checkTeamRecord = async (req, res) => {
               
                     
 
-                  var sum = Number(findMyUpperLineWholeData[0].Wallete) + Number(percan) * percen / 100
 
-                  await User.findByIdAndUpdate({ _id: findMyUpperLineWholeData[0]._id }, { Wallete: sum })
 
                   var fndUser = await User.findById(findMyUpperLineWholeData[0]._id)
                   var findDirectsForThisUser = await User.find({UpperLineSponserUser:fndUser.WalletAddress})
@@ -306,9 +313,9 @@ exports.checkTeamRecord = async (req, res) => {
                     findDirectsForThisUser.map((hit,index)=>{
 
                       // console.log("tumhara hai ==>"+hit._id)
-                      console.log("mera hai ==>"+findUser._id)
+                      // console.log("mera hai ==>"+findUser._id)
 
-                      console.log(String(findUser._id))
+                      // console.log(String(findUser._id))
 
                       if (hit._id == String(findUser._id)) {
                         // console.log("ye kam karing")
@@ -347,6 +354,13 @@ exports.checkTeamRecord = async (req, res) => {
                     percen = 1
 
                   }
+
+                  var sum = Number(findMyUpperLineWholeData[0].Wallete) + Number(percan) * percen / 100
+
+                  console.log(sum)
+
+
+                  await User.findByIdAndUpdate({ _id: findMyUpperLineWholeData[0]._id }, { Wallete: sum })
 
 
 
