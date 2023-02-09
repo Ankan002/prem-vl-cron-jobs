@@ -138,7 +138,7 @@ const calculateRewards = async (userId, rewardCache) => {
     thirdBestAmount
   );
 
-  console.log(userId, bestAmount, secondBestAmount, thirdBestAmount);
+  console.log(userId, bestAmount*0.40, secondBestAmount*0.30, thirdBestAmount*0.30);
 
   const rewardAmount = bestAmount + secondBestAmount + thirdBestAmount;
 

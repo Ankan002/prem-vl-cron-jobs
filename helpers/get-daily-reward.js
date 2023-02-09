@@ -14,29 +14,29 @@ const level = {
 exports.getDailyRewardLevel = (tier) => level[tier];
 
 exports.levelEligibleFor = (bestIncome, secondBestIncome, thirdBestIncome) => {
-  const partialBest = bestIncome;
-  const partialSecondBest = secondBestIncome;
-  const partialThirdBest = thirdBestIncome;
+  const partialBest = bestIncome * 0.4;
+  const partialSecondBest = (secondBestIncome * 0.3);
+  const partialThirdBest = thirdBestIncome * 0.3;
 
   console.log(partialBest, partialSecondBest, partialThirdBest);
 
-  if(partialBest >= 1000 && partialSecondBest >= 750 && partialThirdBest >= 750) {
+  if (partialBest >= 1000 && partialSecondBest >= 750 && partialThirdBest >= 750) {
 
-    if(partialBest >= 3000 && partialSecondBest >= 2250 && partialThirdBest >= 2500) {
+    if (partialBest >= 3000 && partialSecondBest >= 2500 && partialThirdBest >= 2500) {
 
-      if(partialBest >= 10000 && partialSecondBest >= 7500 && partialThirdBest >= 7500){
+      if (partialBest >= 10000 && partialSecondBest >= 7500 && partialThirdBest >= 7500) {
 
-        if(partialBest >= 40000 && partialSecondBest >= 30000 && partialThirdBest >= 30000) {
+        if (partialBest >= 40000 && partialSecondBest >= 30000 && partialThirdBest >= 30000) {
 
-          if(partialBest >= 100000 && partialSecondBest >= 75000 && partialThirdBest >= 75000) {
+          if (partialBest >= 100000 && partialSecondBest >= 75000 && partialThirdBest >= 75000) {
 
-            if(partialBest >= 200000 && partialSecondBest >= 150000 && partialThirdBest >= 150000){
+            if (partialBest >= 200000 && partialSecondBest >= 150000 && partialThirdBest >= 150000) {
 
-              if(partialBest >= 400000 && partialSecondBest >= 300000 && partialThirdBest >= 300000) {
+              if (partialBest >= 400000 && partialSecondBest >= 300000 && partialThirdBest >= 300000) {
 
-                if(partialBest >= 600000 && partialSecondBest >= 450000 && partialThirdBest >= 450000) {
+                if (partialBest >= 600000 && partialSecondBest >= 450000 && partialThirdBest >= 450000) {
 
-                  if(partialBest >= 1000000 && partialSecondBest >= 750000 && partialThirdBest >= 750000){
+                  if (partialBest >= 1000000 && partialSecondBest >= 750000 && partialThirdBest >= 750000) {
                     return "President";
                   }
 

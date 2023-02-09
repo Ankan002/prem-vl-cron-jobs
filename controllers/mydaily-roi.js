@@ -13,11 +13,17 @@ exports.checkTeamRecord = async (req, res) => {
   for (let indexdf = 0; indexdf < findAllUsers.length; indexdf++) {
     const MeUser = findAllUsers[indexdf];
 
-    var findUser = MeUser
 
+    console.log(MeUser._id)
+    
+    var findUser = MeUser
+    
     const getPackage = await DepositRecord.find({ RecordOwner: MeUser._id })
 
+    console.log(getPackage)
+    
     if (getPackage.length > 0) {
+      console.log("he has some pakage")
 
       for (let indexs = 0; indexs < getPackage.length; indexs++) {
 
