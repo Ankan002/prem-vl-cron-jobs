@@ -14,9 +14,9 @@ const level = {
 exports.getDailyRewardLevel = (tier) => level[tier];
 
 exports.levelEligibleFor = (bestIncome, secondBestIncome, thirdBestIncome) => {
-  const partialBest = bestIncome * 0.4;
-  const partialSecondBest = (secondBestIncome * 0.3);
-  const partialThirdBest = thirdBestIncome * 0.3;
+  const partialBest = bestIncome;
+  const partialSecondBest = (secondBestIncome);
+  const partialThirdBest = thirdBestIncome;
 
   console.log(partialBest, partialSecondBest, partialThirdBest);
 
