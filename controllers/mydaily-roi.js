@@ -55,7 +55,23 @@ exports.checkTeamRecord = async (req, res) => {
 
         var AmountPercantage = totalStakedAmount * 300 / 100
 
-        if (findTodayROIDataOld.length > 0) {
+
+        const getShortDatForTotalEarnig = await ShortRecord.findOne({RecordOwner:MeUser._id})
+
+
+        if (getShortDatForTotalEarnig) {
+
+          let DailyEarning = getShortDatForTotalEarnig.AllTimeDailyBusiness
+          let CareerEarning = getShortDatForTotalEarnig.AllTimeCareerReward
+          let LevelEarning = getShortDatForTotalEarnig.AllTimeLevelBusiness
+
+          var sums = DailyEarning + CareerEarning +LevelEarning
+        }else{
+          var sums = 0
+
+        }
+
+        if (findTodayROIDataOld.length > 0 && Number(sums) < Number(AmountPercantage)) {
 
           var lastDataDate = findTodayROIDataOld[0].createdAt
 

@@ -566,6 +566,27 @@ exports.careerRewardController = async(req, res) => {
         "Owner": "0x2eaffba6414108875e10e8a8f53cdaa1c57532b14",
         "__v": 0
       },
+      {
+        "_id": {
+          "$oid": "63e4c9d48e8e0d02651e270c"
+        },
+        "stakedBal1": "200",
+        "stakedTime1": "1674483820",
+        "rewardCalculationDate1": "1674483820",
+        "rewardsWithdrawn1": "0",
+        "RewardsWithdrawnCalculation": "0",
+        "vrpayWithdrawn": "0",
+        "level": "0",
+        "referrer": "0x2eaffba6414108875e10e8a8f53cdaa1c57532b13",
+        "teamNum": "2855",
+        "directnum": "1",
+        "totalDeposit": "100000000000000000000",
+        "directDeposit": "100000000000000000000",
+        "teamTotalDeposit": "1552543590000000000000000",
+        "Owner": "0x2eaffba6414108875e10e8a8f53cdaa1c57532b14",
+        "__v": 0
+      },
+    
     ]
 
 
