@@ -213,6 +213,18 @@ exports.grantReward = async () => {
         reward_granted: dailyReward,
         time_granted: dateString,
       });
+
+
+
+
+
+
+
+
+
+
+
+
     } else {
       const eachDayRewardToBeGranted = await calculateRewards(
         retrievedUser.id,
@@ -230,6 +242,19 @@ exports.grantReward = async () => {
         reward_granted: dailyReward,
         time_granted: dateString,
       });
+
+
+      
+
+
+
+
+
+
+
+
+
+
     }
 
     console.log(Object.keys(rewardCache).length);

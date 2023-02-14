@@ -1,9 +1,31 @@
 const User = require("../models/User")
 const MyUpperlines = require("../models/MyUpperlines")
+const ShortRecord = require("../models/ShortRecord")
 
 exports.careerRewardController = async(req, res) => {
 
-    const UsersData = [{
+    const UsersData = [
+      {
+        "_id": {
+          "$oid": "63e4c9d48e8e0d02651e270c"
+        },
+        "stakedBal1": "100",
+        "stakedTime1": "1674483820",
+        "rewardCalculationDate1": "1674483820",
+        "rewardsWithdrawn1": "0",
+        "RewardsWithdrawnCalculation": "0",
+        "vrpayWithdrawn": "0",
+        "level": "0",
+        "referrer": "oxoxoxoxoxoxoxoxoxoxxxxoxxoxx",
+        "teamNum": "2855",
+        "directnum": "1",
+        "totalDeposit": "100000000000000000000",
+        "directDeposit": "100000000000000000000",
+        "teamTotalDeposit": "1552543590000000000000000",
+        "Owner": "0x2eaffba6414108875e10e8a8f53cdaa1c5753202",
+        "__v": 0
+      },
+      {
       "_id": {
         "$oid": "63e4c9d48e8e0d02651e270c"
       },
@@ -22,7 +44,8 @@ exports.careerRewardController = async(req, res) => {
       "teamTotalDeposit": "1552543590000000000000000",
       "Owner": "0x2eaffba6414108875e10e8a8f53cdaa1c57532a2",
       "__v": 0
-    },{
+    }
+    ,{
         "_id": {
           "$oid": "63e4c9d48e8e0d02651e270c"
         },
@@ -552,23 +575,98 @@ exports.careerRewardController = async(req, res) => {
         console.log("running")
 
 
-        const findLastUser = await User.findOne({WalletAddress:UsersData[index].Owner})
+        const findLastUser = await User.findOne({WalletAddress:UserM.Owner.toLowerCase()})
 
         if (findLastUser == null) {
 
         const CreateNewUser = await User({
 
-            UpperLineSponserUser:UserM.referrer,
-            WalletAddress:UserM.Owner
+            UpperLineSponserUser:UserM.referrer.toLowerCase(),
+            WalletAddress:UserM.Owner.toLowerCase()
     
         }).save()
+
+
+
+
+
+
+        const findUpperUser = await User.findOne({WalletAddress:UserM.referrer.toLowerCase()})
+
+
+        if (findUpperUser) {
+        
+
+
+        const findUserShortRecord = await ShortRecord.findOne({RecordOwner:findUpperUser._id})
+
+
+
+        if (findUserShortRecord == null) {
+
+
+          const createRecord = await ShortRecord({
+            RecordOwner:findUpperUser._id,
+            AllMyDirectPeople:1
+          }).save()
+
+
+
+
+          
+        }else{
+
+
+          const fetchOld = await ShortRecord.findById(findUserShortRecord._id)
+
+          const  sum = Number(fetchOld.AllMyDirectPeople) + 1
+
+
+            const findOldRecord = await ShortRecord.findByIdAndUpdate({_id:findUserShortRecord._id},{AllMyDirectPeople:sum})
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Going Forward To Post Upperlines
 
         var myArr = []
 
-    var findRef1 = await User.findOne({WalletAddress:UserM.referrer})
+    var findRef1 = await User.findOne({WalletAddress:UserM.referrer.toLowerCase()})
 
     while (findRef1 !== null) {
 
@@ -578,7 +676,7 @@ exports.careerRewardController = async(req, res) => {
 
       myArr.push(`"${findRef1.WalletAddress}"`)
 
-        findRef1 = await User.findOne({WalletAddress:findRef1.UpperLineSponserUser})
+        findRef1 = await User.findOne({WalletAddress:findRef1.UpperLineSponserUser.toLowerCase()})
 
         // findRef1 = await User.findOne({UpperLineSponserUser:UserM.referrer})
         

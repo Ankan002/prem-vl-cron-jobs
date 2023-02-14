@@ -5,6 +5,7 @@ const LapRoi = require("../models/LapRoi")
 const MyUpperline = require("../models/MyUpperlines")
 const LevelDailyRoi = require("../models/LevelDailyRoi")
 const { updateTeamRecord } = require("../helpers/update-team-record")
+const ShortRecord = require("../models/ShortRecord")
 
 exports.checkTeamRecord = async (req, res) => {
 
@@ -13,8 +14,7 @@ exports.checkTeamRecord = async (req, res) => {
   for (let indexdf = 0; indexdf < findAllUsers.length; indexdf++) {
     const MeUser = findAllUsers[indexdf];
 
-
-    console.log(MeUser._id)
+    // console.log(MeUser._id)
     
     var findUser = MeUser
     
@@ -55,30 +55,6 @@ exports.checkTeamRecord = async (req, res) => {
 
         var AmountPercantage = totalStakedAmount * 300 / 100
 
-
-        // if (Number(findUser.Wallete) >= Number(AmountPercantage)) {
-
-        //   var percan = depositedAmount * 0.5 / 100
-        //   const giveRewardLapRoi = await LapRoi({
-        //     RoiOwner: findUser._id,
-        //     StepsWalked: "0",
-        //     GiveRoiCoin: percan,
-        //     GiveRoiPercantage: "0.5",
-        //     PurchasedPackageName: "wegwe",
-        //     Date: `${getYear}-${getMonth}-${getDay}`
-        //   }).save()
-
-
-
-
-
-        // } else {
-
-         
-
-        // }
-
-
         if (findTodayROIDataOld.length > 0) {
 
           var lastDataDate = findTodayROIDataOld[0].createdAt
@@ -91,7 +67,6 @@ exports.checkTeamRecord = async (req, res) => {
           let differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
           var diffDays = Math.floor(differenceInDays)
-
 
           var num = 0
 
@@ -110,6 +85,42 @@ exports.checkTeamRecord = async (req, res) => {
             PurchasedPackageName: "wegwe",
             Date: `${getYear}-${getMonth}-${getDay}`
           }).save()
+
+
+          const GetShortRecord1 = await ShortRecord.findOne({RecordOwner: findUser._id})
+
+
+          
+          
+          if (GetShortRecord1 == null) {
+            console.log("cames ====>")
+            
+            const createNewRecord = await ShortRecord({
+              RecordOwner:findUser._id,
+              AllTimeDailyBusiness:Number(percan)
+            }).save()
+            
+          }else{
+            console.log("cames2d ====>")
+            
+            const getValueThen2 = await ShortRecord.findOne({ROIOwner: findUser._id})
+
+            let sumiTuPs = Number(getValueThen2.AllTimeDailyBusiness) + Number(percan)
+
+
+            console.log("the simeis =>>>>> "+sumiTuPs)
+
+            const updateValue = await ShortRecord.findByIdAndUpdate({_id:getValueThen2._id},{AllTimeDailyBusiness:sumiTuPs})
+            
+            console.log("gones also ====>")
+          }
+
+
+
+
+
+
+          // }
 
           num = num + 1
          
@@ -243,6 +254,34 @@ exports.checkTeamRecord = async (req, res) => {
 
                 }).save()
 
+
+                const GetShortRecord = await ShortRecord.findOne({RecordOwner: findMyUpperLineWholeData[0]._id})
+
+
+                if (GetShortRecord == null) {
+
+
+                  console.log("came in thissish")
+                  
+                  
+                  const createNewRecord = await ShortRecord({
+                    RecordOwner:findMyUpperLineWholeData[0]._id,
+                    AllTimeLevelBusiness:Number(percan) * percen / 100
+                  }).save()
+
+                  
+                  
+                }else{
+                  
+                  console.log("came in poing")
+                  const getValueThen = await ShortRecord.findOne({RecordOwner: findMyUpperLineWholeData[0]._id})
+
+                  let sumiTuP = Number(getValueThen.AllTimeLevelBusiness) + Number(percan) * percen / 100
+
+                  const updateValue = await ShortRecord.findByIdAndUpdate({_id:getValueThen._id},{AllTimeLevelBusiness:sumiTuP})
+
+                }
+
               }
               }
 
@@ -264,6 +303,39 @@ exports.checkTeamRecord = async (req, res) => {
             PurchasedPackageName: "wegwe",
             Date: `${getYear}-${getMonth}-${getDay}`
           }).save()
+
+
+          
+          const GetShortRecord1 = await ShortRecord.findOne({RecordOwner: findUser._id})
+
+
+          if (GetShortRecord1 == null) {
+
+
+            const createNewRecord = await ShortRecord({
+              RecordOwner:findUser._id,
+              AllTimeDailyBusiness:percan
+            }).save()
+
+
+            console.log("came in this if  3")
+            
+          }else{
+
+
+            console.log("came in this elase 5")
+
+            const getValueThen = await ShortRecord.findOne({RecordOwner: findUser._id})
+
+            let sumiTuP = getValueThen.AllTimeDailyBusiness + Number(percan)
+
+            const updateValue = await ShortRecord.findByIdAndUpdate({_id:getValueThen._id},{AllTimeDailyBusiness:sumiTuP})
+
+          }
+
+
+
+
 
 
 
@@ -398,6 +470,30 @@ exports.checkTeamRecord = async (req, res) => {
                                       rewardGetFromName: findUser.WalletAddress,
                   
                                     }).save()
+                                    
+                                    const GetShortRecord = await ShortRecord.findOne({RecordOwner: findMyUpperLineWholeData[0]._id})
+
+
+                                    if (GetShortRecord == null) {
+
+                                      const createNewRecord = await ShortRecord({
+                                        RecordOwner:findMyUpperLineWholeData[0]._id,
+                                        AllTimeLevelBusiness:Number(percan) * percen / 100
+                                      }).save()
+                                      
+                                    }else{
+
+                                      const getValueThen = await ShortRecord.findOne({RecordOwner: findMyUpperLineWholeData[0]._id})
+
+                                      let sumiTuP = Number(getValueThen.AllTimeLevelBusiness) + Number(percan) * percen / 100
+
+                                      const updateValue = await ShortRecord.findByIdAndUpdate({_id:getValueThen._id},{AllTimeLevelBusiness:sumiTuP})
+
+                                    }
+
+
+
+
    
                 }
 

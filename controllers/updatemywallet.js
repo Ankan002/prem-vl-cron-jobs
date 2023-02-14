@@ -1,6 +1,7 @@
 const User = require("../models/User")
 const MyUpperlines = require("../models/MyUpperlines")
 const DepositRecord = require("../models/DepositRecord")
+const ShortRecord = require("../models/ShortRecord")
 
 exports.updatemywallet = async (req, res) => {
 
@@ -8,7 +9,28 @@ exports.updatemywallet = async (req, res) => {
 
 
 
-      const AllUsersDepositData = [{
+      const AllUsersDepositData = [
+        {
+          "_id": {
+            "$oid": "63e4c9d48e8e0d02651e270c"
+          },
+          "stakedBal1": "100",
+          "stakedTime1": "1674483820",
+          "rewardCalculationDate1": "1674483820",
+          "rewardsWithdrawn1": "0",
+          "RewardsWithdrawnCalculation": "0",
+          "vrpayWithdrawn": "0",
+          "level": "0",
+          "referrer": "oxoxoxoxoxoxoxoxoxoxxxxoxxoxx",
+          "teamNum": "2855",
+          "directnum": "1",
+          "totalDeposit": "100000000000000000000",
+          "directDeposit": "100000000000000000000",
+          "teamTotalDeposit": "1552543590000000000000000",
+          "Owner": "0x2eaffba6414108875e10e8a8f53cdaa1c5753202",
+          "__v": 0
+        },
+        {
         "_id": {
           "$oid": "63e4c9d48e8e0d02651e270c"
         },
@@ -27,7 +49,8 @@ exports.updatemywallet = async (req, res) => {
         "teamTotalDeposit": "1552543590000000000000000",
         "Owner": "0x2eaffba6414108875e10e8a8f53cdaa1c57532a2",
         "__v": 0
-      },{
+      }
+      ,{
           "_id": {
             "$oid": "63e4c9d48e8e0d02651e270c"
           },
@@ -557,7 +580,7 @@ exports.updatemywallet = async (req, res) => {
 
 
 
-        const findThisMainUser = await User.findOne({ WalletAddress: thisUser.Owner })
+        const findThisMainUser = await User.findOne({ WalletAddress: thisUser.Owner.toLowerCase() })
 
 
 
@@ -571,6 +594,8 @@ exports.updatemywallet = async (req, res) => {
             var month = date.getMonth()
             var day = date.getDate()
 
+
+            
 
 
             const UploadDepositData = await DepositRecord({
@@ -587,6 +612,11 @@ exports.updatemywallet = async (req, res) => {
             }).save()
 
 
+
+
+
+
+
             const getThisUserOldWallet = await User.findById(findThisMainUser._id)
 
             var oldWalletBalance = getThisUserOldWallet.Wallete
@@ -594,6 +624,91 @@ exports.updatemywallet = async (req, res) => {
             var sum = Number(thisUser.stakedBal1.slice(0,-18)) + Number(oldWalletBalance)
 
             var updateWalletAmounntNow = await User.findByIdAndUpdate({ _id: findThisMainUser._id }, { Wallete: sum })
+
+ 
+
+
+            ///////////////////////////////////////////////////////
+
+
+            const findUpperUser = await User.findOne({WalletAddress:thisUser.referrer.toLowerCase()})
+
+
+            if (findUpperUser) {
+            
+    
+    
+            const findUserShortRecord = await ShortRecord.findOne({RecordOwner:findUpperUser._id})
+    
+    
+    
+            if (findUserShortRecord == null) {
+    
+    
+              const createRecord = await ShortRecord({
+                RecordOwner:findUpperUser._id,
+                AllMyDirectBusiness:""
+              }).save()
+    
+    
+    
+    
+              
+            }else{
+    
+    
+              const fetchOld = await ShortRecord.findById(findUserShortRecord._id)
+    
+              const  sum = Number(fetchOld.AllMyDirectBusiness) + Number(thisUser.stakedBal1)
+    
+    
+                const findOldRecord = await ShortRecord.findByIdAndUpdate({_id:findUserShortRecord._id},{AllMyDirectBusiness:sum})
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            }
+    
+    
+    
+    
+
+
+
+
+
+
+
+            //////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
 
 
 
