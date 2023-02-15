@@ -1,7 +1,9 @@
 const User = require("../models/User");
 const CareerReward = require("../models/CareerReward");
+const DepositRecord = require("../models/DepositRecord");
 const { format, differenceInHours, parse, subDays } = require("date-fns");
 const { getDailyRewardLevel, levelEligibleFor } = require("./get-daily-reward");
+const ShortRecord = require("../models/ShortRecord");
 
 const convertToMaxHeap = (referredUsersPackageAmounts) => {
   let currentIndex = Math.floor((referredUsersPackageAmounts.length - 1) / 2);
@@ -160,6 +162,20 @@ exports.grantReward = async () => {
   console.log(allUsersIds.length);
 
   for (let retrievedUser of allUsersIds) {
+    const userdIdShortRecord = await ShortRecord.findById(retrievedUser.id);
+
+    const totalRewardIncome = userdIdShortRecord.AllTimeLevelBusiness + userdIdShortRecord.AllTimeDailyBusiness + userdIdShortRecord.AllTimeCareerReward;
+
+    const myDepositRecords = await DepositRecord.find({
+      RecordOwner: retrievedUser.id
+    });
+
+    const myTotalDeposit = 0;
+
+    myDepositRecords.forEach(record => myTotalDeposit += Number(record.DepositAmount));
+
+    if((3 * myTotalDeposit) > totalRewardIncome) continue;
+
     const rewards = await CareerReward.find({
       user_id: retrievedUser.id,
     })
