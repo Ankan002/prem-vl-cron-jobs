@@ -174,7 +174,7 @@ exports.grantReward = async () => {
 
     myDepositRecords.forEach(record => myTotalDeposit += Number(record.DepositAmount));
 
-    if((3 * myTotalDeposit) > totalRewardIncome) continue;
+    if((3 * myTotalDeposit) < totalRewardIncome) continue;
 
     const rewards = await CareerReward.find({
       user_id: retrievedUser.id,
