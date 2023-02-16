@@ -162,7 +162,15 @@ exports.grantReward = async () => {
   console.log(allUsersIds.length);
 
   for (let retrievedUser of allUsersIds) {
-    const userdIdShortRecord = await ShortRecord.findById(retrievedUser.id);
+    let userdIdShortRecord = await ShortRecord.findOne({
+      RecordOwner: retrievedUser.id
+    });
+
+    if(userdIdShortRecord === null){
+      userdIdShortRecord = await ShortRecord.create({
+        RecordOwner: retrievedUser.id
+      });
+    }
 
     const totalRewardIncome = userdIdShortRecord.AllTimeLevelBusiness + userdIdShortRecord.AllTimeDailyBusiness + userdIdShortRecord.AllTimeCareerReward;
 
@@ -170,11 +178,14 @@ exports.grantReward = async () => {
       RecordOwner: retrievedUser.id
     });
 
-    const myTotalDeposit = 0;
+    let myTotalDeposit = 0;
 
     myDepositRecords.forEach(record => myTotalDeposit += Number(record.DepositAmount));
 
-    if((3 * myTotalDeposit) < totalRewardIncome) continue;
+    if((3 * myTotalDeposit) < totalRewardIncome) {
+      console.log("InEligible");
+      continue
+    };
 
     const rewards = await CareerReward.find({
       user_id: retrievedUser.id,
@@ -196,39 +207,28 @@ exports.grantReward = async () => {
 
       const totalDaysToBeGranted = hourDifference % 24;
 
-      // if (totalDaysToBeGranted <= 0) continue;
+      if (totalDaysToBeGranted <= 0) continue;
 
       const eachDayRewardToBeGranted = await calculateRewards(
         retrievedUser.id,
         rewardCache
       );
-      // console.log(retrievedUser.id)
-      // console.log(eachDayRewardToBeGranted);
 
       const dailyReward = getDailyRewardLevel(
         eachDayRewardToBeGranted.rewardTier
       );
 
-      // for (let i = 0; i < totalDaysToBeGranted; i++) {
-      //   const date = subDays(new Date(), i);
-      //   const dateString = format(date, "dd MM yyyy HH:mm");
+      for (let i = 0; i < totalDaysToBeGranted; i++) {
+        const date = subDays(new Date(), i);
+        const dateString = format(date, "dd MM yyyy HH:mm");
 
-      //   await CareerReward.create({
-      //     user_id: retrievedUser.id,
-      //     reward_level: eachDayRewardToBeGranted.rewardTier,
-      //     reward_granted: dailyReward,
-      //     time_granted: dateString,
-      //   });
-      // }
-
-      const dateString = format(new Date(), "dd MM yyyy HH:mm");
-
-      await CareerReward.create({
-        user_id: retrievedUser.id,
-        reward_level: eachDayRewardToBeGranted.rewardTier,
-        reward_granted: dailyReward,
-        time_granted: dateString,
-      });
+        await CareerReward.create({
+          user_id: retrievedUser.id,
+          reward_level: eachDayRewardToBeGranted.rewardTier,
+          reward_granted: dailyReward,
+          time_granted: dateString,
+        });
+      }
 
 
 
