@@ -233,7 +233,7 @@ exports.grantReward = async () => {
 
       const totalDaysToBeGranted = hourDifference % 24;
 
-      // if (totalDaysToBeGranted <= 0) continue;
+      if (totalDaysToBeGranted <= 0) continue;
 
       const eachDayRewardToBeGranted = await calculateRewards(
         retrievedUser.id,
@@ -244,25 +244,17 @@ exports.grantReward = async () => {
         eachDayRewardToBeGranted.rewardTier
       );
 
-      // for (let i = 0; i < totalDaysToBeGranted; i++) {
-      //   const date = subDays(new Date(), i);
-      //   const dateString = format(date, "dd MM yyyy HH:mm");
+      for (let i = 0; i < totalDaysToBeGranted; i++) {
+        const date = subDays(new Date(), i);
+        const dateString = format(date, "dd MM yyyy HH:mm");
 
-      //   await CareerReward.create({
-      //     user_id: retrievedUser.id,
-      //     reward_level: eachDayRewardToBeGranted.rewardTier,
-      //     reward_granted: dailyReward,
-      //     time_granted: dateString,
-      //   });
-      // }
-      const dateString = format(new Date(), "dd MM yyyy HH:mm");
-
-      await CareerReward.create({
-        user_id: retrievedUser.id,
-        reward_level: eachDayRewardToBeGranted.rewardTier,
-        reward_granted: dailyReward,
-        time_granted: dateString,
-      });
+        await CareerReward.create({
+          user_id: retrievedUser.id,
+          reward_level: eachDayRewardToBeGranted.rewardTier,
+          reward_granted: dailyReward,
+          time_granted: dateString,
+        });
+      }
     } else {
       const eachDayRewardToBeGranted = await calculateRewards(
         retrievedUser.id,
