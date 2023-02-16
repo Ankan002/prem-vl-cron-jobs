@@ -93,7 +93,9 @@ const calculateRewards = async (userId, rewardCache) => {
     let myAmount = 0;
 
     myDepositRecords.forEach((record) => {
-      myAmount += Number(record.DepositAmount);
+      if (record.DepositAmount !== "null") {
+        myAmount += Number(record.DepositAmount);
+      }
     });
 
     rewardCache[userId] = {
@@ -158,7 +160,9 @@ const calculateRewards = async (userId, rewardCache) => {
   let myAmount = 0;
 
   myDepositRecords.forEach((record) => {
-    myAmount += Number(record.DepositAmount);
+    if (record.DepositAmount !== "null") {
+      myAmount += Number(record.DepositAmount);
+    }
   });
 
   rewardCache[userId] = {
