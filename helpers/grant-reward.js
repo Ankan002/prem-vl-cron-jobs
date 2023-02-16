@@ -85,7 +85,7 @@ const calculateRewards = async (userId, rewardCache) => {
     UpperLineSponserUser: userRetrieved.WalletAddress,
   }).select("id");
 
-  if (childUsers.length < 0) {
+  if (childUsers.length <= 0) {
     const myDepositRecords = await DepositRecord.find({
       RecordOwner: userRetrieved.id,
     });
@@ -281,8 +281,6 @@ exports.grantReward = async () => {
         time_granted: dateString,
       });
     }
-
-    console.log(Object.keys(rewardCache).length);
   }
 
   console.log(rewardCache);
